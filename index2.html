@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sender (Ably)</title>
+    <style>
+        /* Button container styling */
+        #receiverButtons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* Button styling */
+        button {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hover effect */
+        button:hover {
+            background: linear-gradient(45deg, #2575fc, #6a11cb);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Active (pressed) effect */
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+</head>
+<body>
+    <h1 style="text-align:center; color: #333;">Sender Page (Ably)</h1>
+    <div id="receiverButtons"></div>
+
+    <script>
+        // Initialize Ably with your API key
+        var ably = new Ably.Realtime('ephxPw.ZGn-VA:Jd3HWz_mQVgvS-tShP74SDWwB2BxMY1k8dNib0S9YN4');
+        var channel = ably.channels.get('example-channel');
+
+        // Subscribe to the 'new-receiver' event to get new receiver IDs and names
+        channel.subscribe('new-receiver', function(message) {
+            var receiverId = message.data.receiverId;
+            var userName = message.data.userName;
+
+            console.log('New receiver ID:', receiverId, 'Name:', userName);
+
+            // Create a button for the new receiver with both the receiverId and userName
+            var button = document.createElement('button');
+            button.innerText = 'Send Message to ' + userName + ' (ID: ' + receiverId + ')';
+            button.setAttribute('data-receiver-id', receiverId);
+
+            // Add event listener to the button
+            button.addEventListener('click', function() {
+                // Get the receiverId from the button attribute
+                var targetReceiverId = this.getAttribute('data-receiver-id');
+
+                // Send the message to the specific receiver
+                channel.publish('display-button', { receiverId: targetReceiverId, showButton: true }, function(err) {
+                    if (err) {
+                        console.error('Error sending message:', err);
+                    } else {
+                        console.log('Message sent to Receiver ID:', targetReceiverId);
+                    }
+                });
+            });
+
+            // Append the button to the page
+            document.getElementById('receiverButtons').appendChild(button);
+        });
+    </script>
+</body>
+</html>

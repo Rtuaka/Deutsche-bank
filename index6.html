@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiver (Ably)</title>
+    <style>
+        #actionButton {
+            display: none;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #actionButton:hover {
+            background-color: #45a049;
+        }
+        #modal51 {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+        #modal51.show {
+            display: block;
+        }
+    </style>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+</head>
+<body>
+    <h1>Receiver Page (Ably)</h1>
+    <button id="actionButton">Open Modal</button>
+
+    <div id="modal51">
+        <p>This is modal 51!</p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        // Function to generate a unique ID (UUID)
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Check if the receiver has a unique ID stored in localStorage
+        var receiverId = localStorage.getItem('receiverId');
+        if (!receiverId) {
+            receiverId = generateUUID();
+            localStorage.setItem('receiverId', receiverId);
+        }
+
+        // Retrieve the user name from localStorage (stored by index2.html)
+        var userName = localStorage.getItem('userName') || 'Anonymous';
+
+        // Initialize Ably with your API key
+        var ably = new Ably.Realtime('ephxPw.ZGn-VA:Jd3HWz_mQVgvS-tShP74SDWwB2BxMY1k8dNib0S9YN4');
+        var channel = ably.channels.get('example-channel');
+
+        // Send the receiverId and userName to the sender website
+        channel.publish('new-receiver', { receiverId: receiverId, userName: userName }, function(err) {
+            if (err) {
+                console.error('Error sending receiverId and userName:', err);
+            } else {
+                console.log('Receiver ID and Name sent:', receiverId, userName);
+            }
+        });
+
+        // Subscribe to the channel to listen for messages meant for this receiver
+        channel.subscribe('display-button', function(message) {
+            // Check if the message is intended for this receiver
+            if (message.data.receiverId === receiverId) {
+                // Show the button
+                document.getElementById('actionButton').style.display = 'block';
+
+                // Persist the button visibility in localStorage
+                localStorage.setItem('showButton', 'true');
+            }
+        });
+
+        // Restore the button if it was visible before
+        if (localStorage.getItem('showButton') === 'true') {
+            document.getElementById('actionButton').style.display = 'block';
+        }
+
+        // Add event listener for the action button to open the modal
+        document.getElementById('actionButton').addEventListener('click', function() {
+            document.getElementById('modal51').classList.add('show');
+        });
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('modal51').classList.remove('show');
+        }
+
+        // For debugging: log the receiver ID and user name
+        console.log('Receiver ID:', receiverId, 'User Name:', userName);
+    </script>
+</body>
+</html>

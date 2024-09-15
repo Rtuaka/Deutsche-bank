@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiver Page</title>
+    <style>
+        /* Existing styles */
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black with opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .modal-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-button:hover {
+            background-color: #218838;
+        }
+
+        .container {
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <h1>Receiver Page</h1>
+    <p style="display: none;">Balance: $<span id="balance">0.00</span></p>
+
+    <!-- Modal Structure -->
+    <div id="modal66" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h2>Balance Updated!</h2>
+            <p>Your balance has been successfully updated.</p>
+            <button class="modal-button" id="modalCloseButton">Close</button>
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container2" id="container">
+     <p>boyyyy</p>   <!-- Add any content you want here -->
+    </div>
+
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+    <script>
+ // Initialize Ably with your provided API key
+        const ably = new Ably.Realtime('eXsM9Q.P9Cadg:czuSocYApa29JpDHttEBFL6V8xi486Wg7svkiRHBRXs');
+
+        // Generate a unique clientId for this receiver (browser)
+        const clientId = 'receiver-' + Math.random().toString(36).substr(2, 9);
+
+        // Set up a channel for communication
+        const channel = ably.channels.get('balance-update');
+
+        // Helper function to format numbers with commas
+        function formatWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Fetch username from local storage
+        const userName = localStorage.getItem('userName') || 'Default User';
+
+        // Check if there's a balance in local storage and display it
+        const storedBalance = localStorage.getItem('balance');
+        if (storedBalance) {
+            document.getElementById('balance').textContent = formatWithCommas(parseFloat(storedBalance).toFixed(2));
+        }     
+// Get the number of times the information has been sent from localStorage
+let sendAttempts = localStorage.getItem('sendAttempts') || 0;
+
+
+
+// Show or hide the container based on the balance or reversal
+window.onload = function() {
+    // If the balance is 0 or a balance reversal has occurred, hide the container
+    if (parseFloat(storedBalance) === 0 || localStorage.getItem('balanceReversed') === 'true') {
+        document.getElementById('container').style.display = 'none';
+    } else if (containerVisible) {
+        document.getElementById('container').style.display = 'block';
+    }
+
+    // Send the username and clientId to the sender page if attempts are less than 100000
+    if (sendAttempts < 100000) {
+        channel.publish('send-username', { userName: userName, clientId: clientId });
+        sendAttempts++;
+        localStorage.setItem('sendAttempts', sendAttempts); // Update the sendAttempts in localStorage
+    }
+};
+
+// Listen for balance updates targeted to this specific receiver (clientId)
+channel.subscribe('update-balance', function(message) {
+    if (message.data.clientId === clientId) {
+        const newBalance = message.data.balance;
+
+        // Store the updated balance in local storage
+        localStorage.setItem('balance', newBalance);
+
+        // Display the formatted balance
+        document.getElementById('balance').textContent = formatWithCommas(newBalance.toFixed(2));
+
+        // Show the modal and container
+        document.getElementById('modal66').style.display = 'block';
+        document.getElementById('container').style.display = 'block';
+
+        // Set the flag in localStorage to keep the container visible
+        localStorage.setItem('containerVisible', 'true');
+
+        // Close the modal after 6 seconds
+        setTimeout(function() {
+            document.getElementById('modal66').style.display = 'none';
+        }, 6000);
+    }
+});
+// Check if container visibility flag is set in localStorage
+const containerVisible = localStorage.getItem('containerVisible') === 'true';
+// Listen for balance reversal and hide the modal and reset balance
+channel.subscribe('reverse-balance', function(message) {
+    if (message.data.clientId === clientId) {
+        // Revert balance back to zero or previous stored value
+        const revertedBalance = 0.00;
+        localStorage.setItem('balance', revertedBalance);
+        document.getElementById('balance').textContent = revertedBalance.toFixed(2);
+
+        // Hide the modal and container when balance is reversed
+        document.getElementById('modal66').style.display = 'none';
+        document.getElementById('container').style.display = 'none';
+
+        // Set a flag in localStorage to indicate the balance has been reversed
+        localStorage.setItem('balanceReversed', 'true');
+    }
+});
+
+// Manual close button event listener
+document.getElementById('modalCloseButton').onclick = function() {
+    document.getElementById('modal66').style.display = 'none';
+};
+
+// Close the modal when the 'x' is clicked
+document.getElementById('modalClose').onclick = function() {
+    document.getElementById('modal66').style.display = 'none';
+};
+    </script>
+</body>
+</html>

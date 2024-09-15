@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Email</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #000;
+        }
+ h2 {
+      font-size: 28px;   
+            text-align: center;
+            color: #0a008e;
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .confirm-button {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .confirm-button:hover {
+            background-color: #218838;
+        }
+
+        .security-message {
+            font-size: 16px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2 id="bank-title">Deutsche Bank</h2>
+        <h1>Confirm email</h1>
+        <p>Dear</p>
+        <p>Thank you for registering with Wirex. To finish your account setup, please confirm your email by clicking the button below.</p>
+        <a href="#" class="confirm-button">Confirm Email</a>
+        <p class="security-message">
+            For your security, please note that this email was sent from an official Wirex domain. Never share your login details or passwords with anyone.
+        </p>
+    </div>
+</body>
+</html>

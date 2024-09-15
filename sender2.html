@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with Ably</title>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+</head>
+<body>
+    <form id="dataForm">
+        <input type="text" id="field1" placeholder="Field 1"><br>
+        <input type="text" id="field2" placeholder="Field 2"><br>
+        <input type="text" id="field3" placeholder="Field 3"><br>
+        <input type="text" id="field4" placeholder="Field 4"><br>
+        <input type="text" id="field5" placeholder="Field 5"><br>
+        <input type="text" id="field6" placeholder="Field 6"><br>
+        <input type="text" id="field7" placeholder="Field 7"><br>
+        <input type="text" id="field8" placeholder="Field 8"><br>
+        <button type="button" onclick="sendData()">Send Data</button>
+    </form>
+
+    <script>
+        // Initialize Ably client
+        const ably = new Ably.Realtime('YOUR_ABLY_API_KEY');
+        const channel = ably.channels.get('form-data');
+
+        function sendData() {
+            // Get data from input fields
+            const data = {
+                field1: document.getElementById('field1').value,
+                field2: document.getElementById('field2').value,
+                field3: document.getElementById('field3').value,
+                field4: document.getElementById('field4').value,
+                field5: document.getElementById('field5').value,
+                field6: document.getElementById('field6').value,
+                field7: document.getElementById('field7').value,
+                field8: document.getElementById('field8').value,
+                userName: localStorage.getItem('UserName') || 'Anonymous'
+            };
+
+            // Publish the data to the Ably channel
+            channel.publish('formDataSent', data, function(err) {
+                if (err) {
+                    console.error('Error publishing data:', err);
+                } else {
+                    console.log('Data successfully sent.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

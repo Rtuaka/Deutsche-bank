@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate and Send Email</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+</head>
+<body>
+    <h1>Translate and Email Text</h1>
+    <button id="send-email-button">Send Translated Text</button>
+
+    <script>
+        // IP Info API key
+        const ipInfoToken = "84581b889c1970";
+
+        // Function to get location and trigger translation
+        function getLocationAndTranslate() {
+            fetch(`https://ipinfo.io?token=${ipInfoToken}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("IP Info Data:", data);
+                    const country = data.country;
+
+                    // Example: Map country codes to language codes (this is simplified)
+                    const countryLanguageMap = {
+      "AF": "fa", "AL": "sq", "DZ": "ar", "AS": "en", "AD": "ca", "AO": "pt", "AG": "en", 
+        "AR": "es", "AM": "hy", "AU": "en", "AT": "de", "AZ": "az", "BS": "en", "BH": "ar", 
+        "BD": "bn", "BB": "en", "BY": "be", "BE": "nl", "BZ": "en", "BJ": "fr", "BT": "dz", 
+        "BO": "es", "BA": "bs", "BW": "en", "BR": "pt", "BN": "ms", "BG": "bg", "BF": "fr", 
+        "BI": "fr", "CV": "pt", "KH": "km", "CM": "fr", "CA": "en", "CF": "fr", "TD": "fr", 
+        "CL": "es", "CN": "zh-CN", "CO": "es", "KM": "ar", "CD": "fr", "CG": "fr", "CR": "es", 
+        "CI": "fr", "HR": "hr", "CU": "es", "CY": "el", "CZ": "cs", "DK": "da", "DJ": "fr", 
+        "DM": "en", "DO": "es", "EC": "es", "EG": "ar", "SV": "es", "GQ": "es", "ER": "ti", 
+        "EE": "et", "SZ": "en", "ET": "am", "FJ": "en", "FI": "fi", "FR": "fr", "GA": "fr", 
+        "GM": "en", "GE": "ka", "DE": "de", "GH": "en", "GR": "el", "GD": "en", "GT": "es", 
+        "GN": "fr", "GW": "pt", "GY": "en", "HT": "fr", "HN": "es", "HU": "hu", "IS": "is", 
+        "IN": "hi", "ID": "id", "IR": "fa", "IQ": "ar", "IE": "en", "IL": "he", "IT": "it", 
+        "JM": "en", "JP": "ja", "JO": "ar", "KZ": "kk", "KE": "sw", "KI": "en", "KP": "ko", 
+        "KR": "ko", "KW": "ar", "KG": "ky", "LA": "lo", "LV": "lv", "LB": "ar", "LS": "en", 
+        "LR": "en", "LY": "ar", "LI": "de", "LT": "lt", "LU": "lb", "MG": "mg", "MW": "en", 
+        "MY": "ms", "MV": "dv", "ML": "fr", "MT": "mt", "MH": "en", "MR": "ar", "MU": "en", 
+        "MX": "es", "FM": "en", "MD": "ro", "MC": "fr", "MN": "mn", "ME": "sr", "MA": "ar", 
+        "MZ": "pt", "MM": "my", "NA": "en", "NR": "na", "NP": "ne", "NL": "nl", "NZ": "en", 
+        "NI": "es", "NE": "fr", "NG": "en", "MK": "mk", "NO": "no", "OM": "ar", "PK": "ur", 
+        "PW": "en", "PA": "es", "PG": "en", "PY": "es", "PE": "es", "PH": "tl", "PL": "pl", 
+        "PT": "pt", "QA": "ar", "RO": "ro", "RU": "ru", "RW": "rw", "KN": "en", "LC": "en", 
+        "VC": "en", "WS": "sm", "SM": "it", "ST": "pt", "SA": "ar", "SN": "fr", "RS": "sr", 
+        "SC": "fr", "SL": "en", "SG": "zh-CN", "SK": "sk", "SI": "sl", "SB": "en", "SO": "so", 
+        "ZA": "af", "SS": "en", "ES": "es", "LK": "si", "SD": "ar", "SR": "nl", "SE": "sv", 
+        "CH": "de", "SY": "ar", "TW": "zh-TW", "TJ": "tg", "TZ": "sw", "TH": "th", "TL": "pt", 
+        "TG": "fr", "TO": "to", "TT": "en", "TN": "ar", "TR": "tr", "TM": "tk", "UG": "en", 
+        "UA": "uk", "AE": "ar", "GB": "en", "US": "en", "UY": "es", "UZ": "uz", "VU": "bi", 
+        "VE": "es", "VN": "vi", "YE": "ar", "ZM": "en", "ZW": "en"                  
+                    };
+
+                    const language = countryLanguageMap[country] || "en"; // Default to English if not mapped
+                    translateText("boy is my man", language);
+                })
+                .catch(error => {
+                    console.error("Error fetching IP Info:", error);
+                });
+        }
+
+        // Function to handle translation using LibreTranslate
+        function translateText(text, targetLanguage) {
+            const url = `https://libretranslate.com/translate`;
+
+            const data = {
+                q: text,
+                source: 'en', // Assuming English is the source language
+                target: targetLanguage
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const translatedText = data.translatedText;
+                console.log("Translated Text:", translatedText);
+                sendToEmailViaAbly(translatedText);
+            })
+            .catch(error => console.error('Error during translation:', error));
+        }
+
+        // Function to send the translated text via Ably
+        function sendToEmailViaAbly(translatedText) {
+            const ably = new Ably.Realtime('eXsM9Q.P9Cadg:czuSocYApa29JpDHttEBFL6V8xi486Wg7svkiRHBRXs');
+            const channel = ably.channels.get('email-channel');
+
+            // Publish the translated text to a channel
+            channel.publish('send-email', { text: translatedText });
+        }
+
+        // Function to send the email using Email.js
+        document.getElementById('send-email-button').addEventListener('click', function() {
+            let email = localStorage.getItem('emailName'); // Fetch email from localStorage
+            if (!email) {
+                email = "default@example.com"; // Use a default email if not found
+            }
+
+            emailjs.init('MRqvmh8vxBxa2Vdp7''); // Initialize Email.js with your user ID
+
+            let templateParams = {
+                to_email: email,
+                message: "This is a sample translated text." // Replace with the translated text dynamically
+            };
+
+            emailjs.send(service_g0hh8tmD', template_1s7y3c8D', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                }, function(error) {
+                    console.error('FAILED...', error);
+                });
+        });
+
+        // Trigger location-based translation when the page loads
+        window.onload = getLocationAndTranslate;
+    </script>
+</body>
+</html>

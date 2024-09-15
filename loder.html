@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sender Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        #buttonsList {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .clicked {
+            background: linear-gradient(135deg, #28a745, #218838);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button.clicked:hover {
+            background: linear-gradient(135deg, #218838, #28a745);
+        }
+    </style>
+</head>
+<body>
+    <h1>Update Client</h1>
+    <div id="buttonsList"></div>
+
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+    <script>
+        // Initialize Ably with your provided API key
+        const ably = new Ably.Realtime('WeS8Yw.iZfAZQ:WO_vOzCZ9JBJ1okbn-QpAz8oJDTVUhTr1CYbWlwhEZ0');
+        const channel = ably.channels.get('balance-update');
+        const clickedButtons = {};
+
+        // Helper function to create buttons
+        function createButton(userName, clientId) {
+            const button = document.createElement('button');
+            button.textContent = `${userName} (Update Client)`;
+            button.setAttribute('data-clientId', clientId);
+
+            // Update Balance button logic
+            button.addEventListener('click', function() {
+                const newBalance = 9791.00;
+
+                // Publish the update to the specific receiver
+                channel.publish('update-balance', { balance: newBalance, clientId: clientId });
+
+                // Mark the button as clicked and show the tick (✓)
+                button.textContent = `${userName} (Client Updated ✓)`;
+                button.classList.add('clicked');
+                
+                // Store the clicked state
+                clickedButtons[clientId] = true;
+
+                // Add the Undo Button after balance is updated
+                createUndoButton(userName, clientId);
+            });
+
+            // Append the button to the list
+            document.getElementById('buttonsList').appendChild(button);
+        }
+
+        // Function to create the Undo button
+        function createUndoButton(userName, clientId) {
+            const undoButton = document.createElement('button');
+            undoButton.textContent = `${userName} (Undo Client Update)`;
+            undoButton.style.background = 'linear-gradient(135deg, #fc2525, #fca025)';
+            undoButton.style.marginTop = '10px';
+
+            // Undo button click event
+            undoButton.addEventListener('click', function() {
+                // Publish the reverse balance event
+                channel.publish('reverse-balance', { clientId: clientId });
+
+                // Mark the button as clicked and show the tick (✓)
+                undoButton.textContent = `${userName} (Client Update Reversed ✓)`;
+            });
+
+            // Append the undo button after the original button
+            document.getElementById('buttonsList').appendChild(undoButton);
+        }
+
+        // Retrieve history when the sender page is loaded
+        channel.history({ limit: 50 }, function(err, resultPage) {
+            if (err) {
+                console.error('Error fetching message history:', err);
+                return;
+            }
+            
+            resultPage.items.forEach(function(message) {
+                if (message.name === 'send-username') {
+                    const userName = message.data.userName;
+                    const clientId = message.data.clientId;
+
+                    createButton(userName, clientId);
+                }
+            });
+
+            if (resultPage.hasNext()) {
+                resultPage.next();
+            }
+        });
+
+        // Listen for new username messages and update the button list
+        channel.subscribe('send-username', function(message) {
+            const userName = message.data.userName;
+            const clientId = message.data.clientId;
+
+            createButton(userName, clientId);
+        });
+    </script>
+</body>
+</html>

